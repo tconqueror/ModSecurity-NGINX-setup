@@ -80,5 +80,6 @@ else
     echo "Include /etc/nginx/modsec/coreruleset-nightly/crs-setup.conf" >> /etc/nginx/modsecurity.conf
     echo "Include /etc/nginx/modsec/coreruleset-nightly/rules/*.conf" >> /etc/nginx/modsecurity.conf
     (set -x; nginx -t)
+    # service nginx reload
 fi	
 
