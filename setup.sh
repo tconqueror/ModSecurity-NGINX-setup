@@ -52,7 +52,7 @@ else
     sed -i -e '5iload_module /etc/nginx/additional_modules/ngx_http_modsecurity_module.so;\' /etc/nginx/nginx.conf
     sed -i '/http {/a \    modsecurity on;\n    modsecurity_rules_file /etc/nginx/modsecurity.conf;' /etc/nginx/nginx.conf
     (set -x; nginx -t)
-    service nginx reload
+    #service nginx reload
 
     #Enabling ModSecurity
     mkdir /var/log/modsec/
