@@ -50,13 +50,13 @@ else
     cp objs/ngx_http_modsecurity_module.so /etc/nginx/additional_modules
     sed -i -e '5iload_module /etc/nginx/additional_modules/ngx_http_modsecurity_module.so;\' /etc/nginx/nginx.conf
     (set -x; nginx -t)
-    service nginx restart
+    service nginx reload
 
 
     #Enabling ModSecurity
     mkdir /etc/nginx/modsec
     wget -P /etc/nginx/modsec/ https://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/modsecurity.conf-recommended
-    wget -P /etc/nginx/modsec/ https://github.com/SpiderLabs/ModSecurity/blob/49495f1925a14f74f93cb0ef01172e5abc3e4c55/unicode.mapping
+    wget -P /etc/nginx/modsec/ https://raw.githubusercontent.com/owasp-modsecurity/ModSecurity/refs/heads/v3/master/unicode.mapping
     mv /etc/nginx/modsec/modsecurity.conf-recommended /etc/nginx/modsec/modsecurity.conf
 
     #Change SecRule from Detection Only to ON (Important)
