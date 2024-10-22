@@ -11,7 +11,7 @@ if [[ $EUID -ne 0 ]]; then
    	echo -e "${c}Must be run as root, add \"sudo\" before script"; $r
    	exit 1
 else
-
+    apt-get update -y
 	#Required Dependencies Installation
 	echo -e "${c}Installing Prerequisites"; $r
 	apt-get install -y apt-utils autoconf automake build-essential git libcurl4-openssl-dev libgeoip-dev liblmdb-dev libpcre3-dev libtool libxml2-dev libyajl-dev pkgconf wget zlib1g-dev
@@ -45,10 +45,12 @@ else
     ./configure --with-compat --add-dynamic-module=../ModSecurity-nginx
     make modules
 
+    # apt-get install libmodsecurity3
     #Adding ModSecurity Module
     mkdir /etc/nginx/additional_modules
     cp objs/ngx_http_modsecurity_module.so /etc/nginx/additional_modules
     sed -i -e '5iload_module /etc/nginx/additional_modules/ngx_http_modsecurity_module.so;\' /etc/nginx/nginx.conf
+    sed -i '/http {/a \    modsecurity on;\n    modsecurity_rules_file /etc/nginx/modsecurity.conf;' /etc/nginx/nginx.conf
     (set -x; nginx -t)
     service nginx reload
 
@@ -77,5 +79,6 @@ else
     sudo cp /etc/nginx/modsec/coreruleset-nightly/crs-setup.conf.example /etc/nginx/modsec/coreruleset-nightly/crs-setup.conf
     echo "Include /etc/nginx/modsec/coreruleset-nightly/crs-setup.conf" >> /etc/nginx/modsecurity.conf
     echo "Include /etc/nginx/modsec/coreruleset-nightly/rules/*.conf" >> /etc/nginx/modsecurity.conf
+    (set -x; nginx -t)
 fi	
 
