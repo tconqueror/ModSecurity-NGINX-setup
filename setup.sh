@@ -12,17 +12,6 @@ if [[ $EUID -ne 0 ]]; then
    	exit 1
 else
 
-	#Latest stable NGINX (important)
-	echo -e "${c}Adding Latest Stable NGINX PPA from launchpad.net"; $r
-	sudo add-apt-repository ppa:nginx/stable -y
-	apt-get update -y
-	apt-get install -y nginx
-	apt-get upgrade -y
-
-	echo -e "${c}Checking NGINX version"; $r
-	(set -x; nginx -v )
-	service nginx restart
-
 	#Required Dependencies Installation
 	echo -e "${c}Installing Prerequisites"; $r
 	apt-get install -y apt-utils autoconf automake build-essential git libcurl4-openssl-dev libgeoip-dev liblmdb-dev libpcre++-dev libtool libxml2-dev libyajl-dev pkgconf wget zlib1g-dev
