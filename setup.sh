@@ -52,8 +52,9 @@ else
     (set -x; nginx -t)
     service nginx reload
 
-
     #Enabling ModSecurity
+    mkdir /var/log/modsec/
+    chmod 777 /var/log/modsec/
     mkdir /etc/nginx/modsec
     wget -P /etc/nginx/modsec/ https://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/modsecurity.conf-recommended
     wget -P /etc/nginx/modsec/ https://raw.githubusercontent.com/owasp-modsecurity/ModSecurity/refs/heads/v3/master/unicode.mapping
@@ -61,8 +62,20 @@ else
 
     #Change SecRule from Detection Only to ON (Important)
     sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/nginx/modsec/modsecurity.conf
+    sed -i 's/SecAuditLogParts ABIJDEFHZ/SecAuditLogParts ABCEFHJKZ/' /etc/nginx/modsec/modsecurity.conf
+    sed -i 's/SecAuditEngine RelevantOnly/SecAuditEngine On/' /etc/nginx/modsec/modsecurity.conf
+    sed -i 's/SecAuditLogType Serial/#SecAuditLogType Serial/' /etc/nginx/modsec/modsecurity.conf
+    sed -i 's#^SecAuditLog /var/log/modsec_audit.log#SecAuditLogFormat JSON\nSecAuditLogType Concurrent\nSecAuditLogStorageDir /var/log/modsec/\nSecAuditLogFileMode 0777\nSecAuditLogDirMode 0777#' /etc/nginx/modsec/modsecurity.conf
+
 
     #making main.conf in /etc/nginx/modsec
-    echo -e "# From https://github.com/SpiderLabs/ModSecurity/blob/master/\n# modsecurity.conf-recommended\n#\n# Edit to set SecRuleEngine On\nInclude \"/etc/nginx/modsec/modsecurity.conf\"" > /etc/nginx/modsec/main.conf
+    echo "Include /etc/nginx/modsec/modsecurity.conf" > /etc/nginx/modsecurity.conf
+
+    cd /etc/nginx/modsec
+    wget https://github.com/coreruleset/coreruleset/archive/refs/tags/nightly.tar.gz
+    tar -xvf nightly.tar.gz
+    sudo cp /etc/nginx/modsec/coreruleset-nightly/crs-setup.conf.example /etc/nginx/modsec/coreruleset-nightly/crs-setup.conf
+    echo "Include /etc/nginx/modsec/coreruleset-nightly/crs-setup.conf" >> /etc/nginx/modsecurity.conf
+    echo "Include /etc/nginx/modsec/coreruleset-nightly/rules/*.conf" >> /etc/nginx/modsecurity.conf
 fi	
 
