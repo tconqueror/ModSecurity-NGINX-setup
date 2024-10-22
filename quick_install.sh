@@ -12,7 +12,10 @@ if [[ $EUID -ne 0 ]]; then
    	exit 1
 else
     apt-get update
-    apt-get install -t libmodsecurity3
+    apt-get install -y libmodsecurity3
+    mkdir /etc/nginx/additional_modules
+    sed -i -e '5iload_module /etc/nginx/additional_modules/ngx_http_modsecurity_module.so;\' /etc/nginx/nginx.conf
+    sed -i '/http {/a \    modsecurity on;\n    modsecurity_rules_file /etc/nginx/modsecurity.conf;' /etc/nginx/nginx.conf
     wget -P /etc/nginx/additional_modules/ https://raw.githubusercontent.com/tconqueror/ModSecurity-NGINX-setup/refs/heads/master/ngx_http_modsecurity_module.so
     chmod +x /etc/nginx/additional_modules/ngx_http_modsecurity_module.so
     mkdir /var/log/modsec/
