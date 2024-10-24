@@ -37,5 +37,9 @@ else
     echo "Include /etc/nginx/modsec/coreruleset-nightly/crs-setup.conf" >> /etc/nginx/modsecurity.conf
     echo "Include /etc/nginx/modsec/coreruleset-nightly/rules/*.conf" >> /etc/nginx/modsecurity.conf
     (set -x; nginx -t)
+    mv /etc/nginx/modsec/coreruleset-nightly/rules/REQUEST-949-BLOCKING-EVALUATION.conf /etc/nginx/modsec/coreruleset-nightly/rules/REQUEST-949-BLOCKING-EVALUATION.conf_
+    mv /etc/nginx/modsec/coreruleset-nightly/rules/REQUEST-920-PROTOCOL-ENFORCEMENT.conf /etc/nginx/modsec/coreruleset-nightly/rules/REQUEST-920-PROTOCOL-ENFORCEMENT.conf_
+    mv /etc/nginx/modsec/coreruleset-nightly/rules/REQUEST-941-APPLICATION-ATTACK-XSS.conf /etc/nginx/modsec/coreruleset-nightly/rules/REQUEST-941-APPLICATION-ATTACK-XSS.conf_
+
     # service nginx reload
 fi	
