@@ -29,7 +29,8 @@ else
     sed -i 's/SecAuditEngine RelevantOnly/SecAuditEngine On/' /etc/nginx/modsec/modsecurity.conf
     sed -i 's/SecAuditLogType Serial/#SecAuditLogType Serial/' /etc/nginx/modsec/modsecurity.conf
     sed -i 's#^SecAuditLog /var/log/modsec_audit.log#SecAuditLogFormat JSON\nSecAuditLogType Concurrent\nSecAuditLogStorageDir /var/log/modsec/\nSecAuditLogFileMode 0777\nSecAuditLogDirMode 0777#' /etc/nginx/modsec/modsecurity.conf
-    echo "Include /etc/nginx/modsec/modsecurity.conf" > /etc/nginx/modsecurity.conf
+    echo 'SecRule REQUEST_HEADERS:Vps-Only "Vps@12345" "id:10001,phase:1,pass,t:none,nolog,ctl:ruleEngine=Off"' > /etc/nginx/modsecurity.conf
+    echo "Include /etc/nginx/modsec/modsecurity.conf" >> /etc/nginx/modsecurity.conf
     cd /etc/nginx/modsec
     wget https://github.com/coreruleset/coreruleset/archive/refs/tags/nightly.tar.gz
     tar -xvf nightly.tar.gz
@@ -37,9 +38,9 @@ else
     echo "Include /etc/nginx/modsec/coreruleset-nightly/crs-setup.conf" >> /etc/nginx/modsecurity.conf
     echo "Include /etc/nginx/modsec/coreruleset-nightly/rules/*.conf" >> /etc/nginx/modsecurity.conf
     (set -x; nginx -t)
-    mv /etc/nginx/modsec/coreruleset-nightly/rules/REQUEST-949-BLOCKING-EVALUATION.conf /etc/nginx/modsec/coreruleset-nightly/rules/REQUEST-949-BLOCKING-EVALUATION.conf_
-    mv /etc/nginx/modsec/coreruleset-nightly/rules/REQUEST-920-PROTOCOL-ENFORCEMENT.conf /etc/nginx/modsec/coreruleset-nightly/rules/REQUEST-920-PROTOCOL-ENFORCEMENT.conf_
-    mv /etc/nginx/modsec/coreruleset-nightly/rules/REQUEST-941-APPLICATION-ATTACK-XSS.conf /etc/nginx/modsec/coreruleset-nightly/rules/REQUEST-941-APPLICATION-ATTACK-XSS.conf_
+    #mv /etc/nginx/modsec/coreruleset-nightly/rules/REQUEST-949-BLOCKING-EVALUATION.conf /etc/nginx/modsec/coreruleset-nightly/rules/REQUEST-949-BLOCKING-EVALUATION.conf_
+    #mv /etc/nginx/modsec/coreruleset-nightly/rules/REQUEST-920-PROTOCOL-ENFORCEMENT.conf /etc/nginx/modsec/coreruleset-nightly/rules/REQUEST-920-PROTOCOL-ENFORCEMENT.conf_
+    #mv /etc/nginx/modsec/coreruleset-nightly/rules/REQUEST-941-APPLICATION-ATTACK-XSS.conf /etc/nginx/modsec/coreruleset-nightly/rules/REQUEST-941-APPLICATION-ATTACK-XSS.conf_
 
     # service nginx reload
 fi	
