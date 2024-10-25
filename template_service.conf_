@@ -1,0 +1,17 @@
+server {
+    listen 80;
+    server_name _;
+
+    # Please do not modify this configuration. It may cause your service to stop working / dead
+    # -------------------------------------------- #
+    modsecurity on;
+    modsecurity_rules_file /etc/nginx/modsecurity.conf;
+    location / {
+        proxy_set_header Host $http_host;
+        if ($http_accept_language = "vn-US") {
+                proxy_pass http://service;
+                break;
+        }
+        proxy_pass http://127.0.0.1:1995;
+    }
+}
