@@ -29,14 +29,11 @@ else
     sed -i 's/SecAuditEngine RelevantOnly/SecAuditEngine On/' /etc/nginx/modsec/modsecurity.conf
     sed -i 's/SecAuditLogType Serial/#SecAuditLogType Serial/' /etc/nginx/modsec/modsecurity.conf
     sed -i 's#^SecAuditLog /var/log/modsec_audit.log#SecAuditLogFormat JSON\nSecAuditLogType Concurrent\nSecAuditLogStorageDir /var/log/modsec/\nSecAuditLogFileMode 0777\nSecAuditLogDirMode 0777#' /etc/nginx/modsec/modsecurity.conf
-    echo 'SecRule REQUEST_HEADERS:Accept-Language "vn-US" "id:10001,phase:1,pass,t:none,nolog,ctl:ruleEngine=Off"' > /etc/nginx/modsecurity.conf
-    echo "Include /etc/nginx/modsec/modsecurity.conf" >> /etc/nginx/modsecurity.conf
+    wget -P /etc/nginx/ https://raw.githubusercontent.com/tconqueror/ModSecurity-NGINX-setup/refs/heads/master/modsecurity.conf
     cd /etc/nginx/modsec
     wget https://github.com/coreruleset/coreruleset/archive/refs/tags/nightly.tar.gz
     tar -xvf nightly.tar.gz
     sudo cp /etc/nginx/modsec/coreruleset-nightly/crs-setup.conf.example /etc/nginx/modsec/coreruleset-nightly/crs-setup.conf
-    echo "Include /etc/nginx/modsec/coreruleset-nightly/crs-setup.conf" >> /etc/nginx/modsecurity.conf
-    echo "Include /etc/nginx/modsec/coreruleset-nightly/rules/*.conf" >> /etc/nginx/modsecurity.conf
     (set -x; nginx -t)
     #mv /etc/nginx/modsec/coreruleset-nightly/rules/REQUEST-949-BLOCKING-EVALUATION.conf /etc/nginx/modsec/coreruleset-nightly/rules/REQUEST-949-BLOCKING-EVALUATION.conf_
     #mv /etc/nginx/modsec/coreruleset-nightly/rules/REQUEST-920-PROTOCOL-ENFORCEMENT.conf /etc/nginx/modsec/coreruleset-nightly/rules/REQUEST-920-PROTOCOL-ENFORCEMENT.conf_
