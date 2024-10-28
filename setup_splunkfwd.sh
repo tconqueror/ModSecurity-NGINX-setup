@@ -6,6 +6,7 @@ wget -P /opt/splunkforwarder/etc/system/local/ https://raw.githubusercontent.com
 wget -P /opt/splunkforwarder/etc/system/local/ https://raw.githubusercontent.com/tconqueror/ModSecurity-NGINX-setup/refs/heads/master/outputs.conf
 wget -P /opt/splunkforwarder/etc/system/local/ https://raw.githubusercontent.com/tconqueror/ModSecurity-NGINX-setup/refs/heads/master/props.conf
 /opt/splunkforwarder/bin/splunk start --accept-license --answer-yes --no-prompt --seed-passwd Vps@1234
+sleep 5
 /opt/splunkforwarder/bin/splunk stop
 /opt/splunkforwarder/bin/splunk set deploy-poll 103.57.220.105:28089 -auth admin:Vps@1234
 /opt/splunkforwarder/bin/splunk clone-prep-clear-config
