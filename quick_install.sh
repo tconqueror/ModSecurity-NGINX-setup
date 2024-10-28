@@ -39,7 +39,7 @@ else
     #mv /etc/nginx/modsec/coreruleset-nightly/rules/REQUEST-949-BLOCKING-EVALUATION.conf /etc/nginx/modsec/coreruleset-nightly/rules/REQUEST-949-BLOCKING-EVALUATION.conf_
     #mv /etc/nginx/modsec/coreruleset-nightly/rules/REQUEST-920-PROTOCOL-ENFORCEMENT.conf /etc/nginx/modsec/coreruleset-nightly/rules/REQUEST-920-PROTOCOL-ENFORCEMENT.conf_
     #mv /etc/nginx/modsec/coreruleset-nightly/rules/REQUEST-941-APPLICATION-ATTACK-XSS.conf /etc/nginx/modsec/coreruleset-nightly/rules/REQUEST-941-APPLICATION-ATTACK-XSS.conf_
-    wget -P /etc/nginx/sites-enabled/ https://raw.githubusercontent.com/tconqueror/ModSecurity-NGINX-setup/refs/heads/master/template_service.conf
+    wget -P /etc/nginx/sites-enabled/ https://raw.githubusercontent.com/tconqueror/ModSecurity-NGINX-setup/refs/heads/master/template_service.conf_
     # service nginx reload
 
 
