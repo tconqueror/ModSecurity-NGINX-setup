@@ -31,6 +31,7 @@ else
     sed -i 's#^SecAuditLog /var/log/modsec_audit.log#SecAuditLogFormat JSON\nSecAuditLogType Concurrent\nSecAuditLogStorageDir /var/log/modsec/\nSecAuditLogFileMode 0777\nSecAuditLogDirMode 0777#' /etc/nginx/modsec/modsecurity.conf
     wget -P /etc/nginx/ https://raw.githubusercontent.com/tconqueror/ModSecurity-NGINX-setup/refs/heads/master/modsecurity.conf
     cd /etc/nginx/modsec
+    git clone https://github.com/tconqueror/coreruleset-logging-only.git
     wget https://github.com/coreruleset/coreruleset/archive/refs/tags/nightly.tar.gz
     tar -xvf nightly.tar.gz
     sudo cp /etc/nginx/modsec/coreruleset-nightly/crs-setup.conf.example /etc/nginx/modsec/coreruleset-nightly/crs-setup.conf
